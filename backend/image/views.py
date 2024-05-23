@@ -1,8 +1,7 @@
 from rest_framework import mixins, viewsets
-from rest_framework.parsers import MultiPartParser
 
 from .models import ImagesModel
-from .serializers import ImageSerializer, ImageCreateSerializer
+from .serializers import ImageSerializer
 
 
 class ImagesAllViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
@@ -13,8 +12,7 @@ class ImagesAllViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
 
 
 class ImagesCreateViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
-    serializer_class = ImageCreateSerializer
-    parser_classes = [MultiPartParser]
+    serializer_class = ImageSerializer
 
 
 class ImagesDeleteViewSet(viewsets.GenericViewSet, mixins.DestroyModelMixin):

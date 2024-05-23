@@ -11,7 +11,7 @@
       <div class="images-row" v-for="(chunk, index) in imagesChunked" :key="index">
         <div class="image-container" v-for="image in chunk" :key="image.id">
           <div class="image-wrapper">
-            <img :src="`data:image/png;base64,${image.image}`" alt="Изображение" class="image">
+            <img :src="image.image" alt="Изображение" class="image">
           </div>
           <div class="description">{{ image.description }}</div>
           <button class="delete-button" @click="deleteImage(image.id)">Удалить</button>
@@ -76,7 +76,7 @@ export default {
     return {
       images: [],
       newImageData: {
-        image: null,
+        image: '',
         description: ''
       }
     };
@@ -133,13 +133,12 @@ export default {
       }
     },
     addImage() {
-      const formData = new FormData();
-      formData.append('image', this.$refs.fileInput.files[0]);
-      formData.append('description', this.newImageData.description);
-
       fetch('http://127.0.0.1:8000/api/image/create/', {
         method: 'POST',
-        body: formData
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.newImageData)
       })
       .then(response => {
         if (response.ok) {
